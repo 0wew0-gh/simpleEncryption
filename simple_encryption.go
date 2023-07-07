@@ -5,7 +5,8 @@ import (
 	"strings"
 )
 
-type SimpleEncryption struct {
+type SimpleEncryption SimpleEncryptionT
+type SimpleEncryptionT struct {
 	extraItem int
 	cKey      []string
 	cryptKey  []string
@@ -38,21 +39,21 @@ type SimpleEncryption struct {
 // return value 1: SimpleEncryption object
 //
 // return value 2: error message
-func New(extraItem int, key string, cryptKey string) (SimpleEncryption, error) {
+func New(extraItem int, key string, cryptKey string) (*SimpleEncryption, error) {
 	var se SimpleEncryption
 	if extraItem < 0 {
-		return se, fmt.Errorf("extraItem needs to be greater than 0")
+		return &se, fmt.Errorf("extraItem needs to be greater than 0")
 	}
 	if key == "" {
-		return se, fmt.Errorf("key cannot be empty")
+		return &se, fmt.Errorf("key cannot be empty")
 	}
 	if cryptKey == "" {
-		return se, fmt.Errorf("cryptKey cannot be empty")
+		return &se, fmt.Errorf("cryptKey cannot be empty")
 	}
 	se.extraItem = extraItem
 	se.cKey = strings.Split(key, "")
 	se.cryptKey = strings.Split(cryptKey, "")
-	return se, nil
+	return &se, nil
 }
 
 // ==============================
@@ -87,16 +88,16 @@ func New(extraItem int, key string, cryptKey string) (SimpleEncryption, error) {
 // return value 1: SimpleEncryption object
 //
 // return value 2: error message
-func NewJson(key string) (SimpleEncryption, error) {
+func NewJson(key string) (*SimpleEncryption, error) {
 	var (
 		se  SimpleEncryption
 		err error
 	)
 	se, err = checkKey(key)
 	if err != nil {
-		return se, err
+		return &se, err
 	}
-	return se, nil
+	return &se, nil
 }
 
 // ==============================
@@ -122,7 +123,7 @@ func NewJson(key string) (SimpleEncryption, error) {
 // return value 1: encrypted string
 //
 // return value 2: error message
-func (se SimpleEncryption) encrypt(str string, extraStr string) (reStr string) {
+func (se *SimpleEncryption) encrypt(str string, extraStr string) (reStr string) {
 	j := 0
 	strArr := strings.Split(str, "")
 	extraStrArr := strings.Split(extraStr, "")
@@ -161,7 +162,7 @@ func (se SimpleEncryption) encrypt(str string, extraStr string) (reStr string) {
 // return value 2: extra information
 //
 // return value 3: error message
-func (se SimpleEncryption) decrypt(str string) (reStr string, extra string, err error) {
+func (se *SimpleEncryption) decrypt(str string) (reStr string, extra string, err error) {
 	j := 0
 	strArr := strings.Split(str, "")
 	for i := 0; i < len(str); i++ {
@@ -178,7 +179,7 @@ func (se SimpleEncryption) decrypt(str string) (reStr string, extra string, err 
 
 /// 私有方法
 
-func (se SimpleEncryption) _cryption(str string, j int) (string, int) {
+func (se *SimpleEncryption) _cryption(str string, j int) (string, int) {
 	reStr := ""
 	s := str
 	cryptI := se._findChar(s)
@@ -191,7 +192,7 @@ func (se SimpleEncryption) _cryption(str string, j int) (string, int) {
 	reStr = se.cryptKey[newByte]
 	return reStr, j
 }
-func (se SimpleEncryption) _findChar(str string) int {
+func (se *SimpleEncryption) _findChar(str string) int {
 	cryptI := -1
 	for i, v := range se.cryptKey {
 		if str == v {
@@ -201,7 +202,7 @@ func (se SimpleEncryption) _findChar(str string) int {
 	}
 	return cryptI
 }
-func (se SimpleEncryption) _enByte(ki int, cryptI int) (newItem int, keyItem int) {
+func (se *SimpleEncryption) _enByte(ki int, cryptI int) (newItem int, keyItem int) {
 	k := se.cKey[ki]
 	ki++
 	cI := se._findChar(k)
@@ -209,7 +210,7 @@ func (se SimpleEncryption) _enByte(ki int, cryptI int) (newItem int, keyItem int
 	newI = se._cryptloop(newI)
 	return newI, ki
 }
-func (se SimpleEncryption) _cryptloop(i int) int {
+func (se *SimpleEncryption) _cryptloop(i int) int {
 	if i < 0 {
 		i = len(se.cryptKey) + i
 	}

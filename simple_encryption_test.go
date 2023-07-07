@@ -13,14 +13,14 @@ var (
 
 func TestEncryption(t *testing.T) {
 	var (
-		se      SimpleEncryption = SimpleEncryption{}
-		err     error            = nil
-		extra   string           = "1"
-		str     string           = "1z3a+bc f"
-		enStr   string           = ""
-		reStr   string           = ""
-		reExtra string           = ""
-		j       int              = 0
+		se      *SimpleEncryption = nil
+		err     error             = nil
+		extra   string            = "1"
+		str     string            = "1z3a+bc f"
+		enStr   string            = ""
+		reStr   string            = ""
+		reExtra string            = ""
+		j       int               = 0
 	)
 	println(">>>>> TestEncryption New <<<<<")
 	se, err = New(2, "jb10=m/zkvpds=1/", "/*-+0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
