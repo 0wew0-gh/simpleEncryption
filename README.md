@@ -12,12 +12,45 @@ var contrast string = "{\"extraItem\":2,\"key\":[\"jb10=m/zkvpds=1/\",\"/*-+0123
 - key[0]: Encryption key
 - key[1]: Character set used for encryption, characters not in the character set will be ignored
 
+## Initialize
+- Function: New
+- Parameter:
+    - extraItem: Extra item add position, currently only supports 1 character
+    - key: Encryption key
+    - cryptKey: Character set used for encryption, characters not in the character set will be ignored
+- Return value:
+    - se: SimpleEncryption object
+    - err: Error message
+- Example:
+```
+se, err := New(extraItem, key, cryptKey)
+if err != nil {
+    println("encrypt error:", err)
+    return
+}
+```
+
+## Initialize with Json string
+- Function: NewJson
+- Parameter:
+    - contrast: Json string of key
+- Return value:
+    - se: SimpleEncryption object
+    - err: Error message
+- Example:
+```
+se, err := NewJson(contrast)
+if err != nil {
+    println("encrypt error:", err)
+    return
+}
+```
+
 ## encrypt
 - Function: encrypt
 - Parameter:
     - str: String to be encrypted
     - extra: Extra encryption item, currently only supports 1 character
-    - contrast: Comparison value string
 - Return value:
     - enStr: Encrypted string
     - err: Error message
@@ -52,7 +85,6 @@ println("[encrypt]:         ", enStr)
 - Function: decrypt
 - Parameter:
     - str: String to be decrypted
-    - contrast: Comparison value string
 - Return value:
     - reStr: Decrypted string
     - reExtra: Extra encryption item
