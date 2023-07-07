@@ -3,8 +3,6 @@ package simpleEncryption
 import (
 	"crypto/rand"
 	"crypto/rsa"
-	"fmt"
-	"strings"
 	"testing"
 )
 
@@ -14,11 +12,6 @@ var (
 )
 
 func TestEncryption(t *testing.T) {
-
-	a := "1234567890"
-	b := strings.Split(a, "")
-	fmt.Println(b)
-
 	var (
 		se      SimpleEncryption = SimpleEncryption{}
 		err     error            = nil
@@ -36,11 +29,7 @@ func TestEncryption(t *testing.T) {
 		return
 	}
 	println("[extra]:     ", extra, "[str]:     ", str)
-	enStr, err = se.encrypt(str, extra)
-	if err != nil {
-		t.Error("encrypt error:", err)
-		return
-	}
+	enStr = se.encrypt(str, extra)
 	println("[encrypt]:                 ", enStr)
 	reStr, reExtra, err = se.decrypt(enStr)
 	if err != nil {
@@ -57,11 +46,7 @@ func TestEncryption(t *testing.T) {
 	}
 	println("[extra]:     ", extra, "[str]:     ", str)
 	for i := 0; i < loopCount; i++ {
-		enStr, err = se.encrypt(str, extra)
-		if err != nil {
-			t.Error("encrypt error:", err)
-			continue
-		}
+		enStr = se.encrypt(str, extra)
 		reStr, reExtra, err = se.decrypt(enStr)
 		if err != nil {
 			t.Error("decrypt error:", err)

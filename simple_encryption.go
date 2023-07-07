@@ -122,8 +122,7 @@ func NewJson(key string) (SimpleEncryption, error) {
 // return value 1: encrypted string
 //
 // return value 2: error message
-func (se SimpleEncryption) encrypt(str string, extraStr string) (string, error) {
-	reStr := ""
+func (se SimpleEncryption) encrypt(str string, extraStr string) (reStr string) {
 	j := 0
 	strArr := strings.Split(str, "")
 	extraStrArr := strings.Split(extraStr, "")
@@ -136,7 +135,7 @@ func (se SimpleEncryption) encrypt(str string, extraStr string) (string, error) 
 		tempStr, j = se._cryption(strArr[i], j)
 		reStr += tempStr
 	}
-	return reStr, nil
+	return reStr
 }
 
 // ==============================
