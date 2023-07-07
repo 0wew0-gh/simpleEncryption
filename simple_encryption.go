@@ -1,4 +1,4 @@
-package simple_encryption
+package simpleEncryption
 
 import (
 	"fmt"
