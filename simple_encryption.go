@@ -11,27 +11,31 @@ type SimpleEncryption struct {
 	cryptKey  []string
 }
 
-// 初始化
+// ==============================
 //
-// initialization
+// 初始化
 //
 // extraItem: 额外信息的位置，从0开始
 //
-// extraItem: extra information position, start from 0
+// cryptKey: 密码本
 //
 // key: 密钥
 //
-// key: key
+// 返回值1: SimpleEncryption对象
 //
-// cryptKey: 密码本
+// 返回值2: 错误信息
+//
+// ==============================
+//
+// initialization
+//
+// extraItem: extra information position, start from 0
+//
+// key: key
 //
 // cryptKey: password book
 //
-// 返回值1: SimpleEncryption对象
-//
 // return value 1: SimpleEncryption object
-//
-// 返回值2: 错误信息
 //
 // return value 2: error message
 func New(extraItem int, key string, cryptKey string) (SimpleEncryption, error) {
@@ -51,17 +55,14 @@ func New(extraItem int, key string, cryptKey string) (SimpleEncryption, error) {
 	return se, nil
 }
 
-// 初始化(Json格式)
+// ==============================
 //
-// initialization(Json format)
+// 初始化(Json格式)
 //
 // key: 密码本
 //
-// key: password book
-//
 //	格式:
 //
-//	format:
 //		{
 //			"extraItem": 1,
 //			"key": ["asfa908#@%.,?", "bcdeftuvwxyz0123456789"]
@@ -69,9 +70,21 @@ func New(extraItem int, key string, cryptKey string) (SimpleEncryption, error) {
 //
 // 返回值1: SimpleEncryption对象
 //
-// return value 1: SimpleEncryption object
-//
 // 返回值2: 错误信息
+//
+// ==============================
+//
+// initialization(Json format)
+//
+// key: password book
+//
+//	format:
+//		{
+//			"extraItem": 1,
+//			"key": ["asfa908#@%.,?", "bcdeftuvwxyz0123456789"]
+//		}
+//
+// return value 1: SimpleEncryption object
 //
 // return value 2: error message
 func NewJson(key string) (SimpleEncryption, error) {
@@ -86,23 +99,27 @@ func NewJson(key string) (SimpleEncryption, error) {
 	return se, nil
 }
 
-// 加密
+// ==============================
 //
-// encryption
+// 加密
 //
 // extra: 额外信息，暂只支持一个字符
 //
-// extra: extra information, only support one character
-//
 // str: 需要加密的字符串
-//
-// str: string need to encrypt
 //
 // 返回值1: 加密后的字符串
 //
-// return value 1: encrypted string
-//
 // 返回值2: 错误信息
+//
+// ==============================
+//
+// encryption
+//
+// extra: extra information, only support one character
+//
+// str: string need to encrypt
+//
+// return value 1: encrypted string
 //
 // return value 2: error message
 func (se SimpleEncryption) encrypt(str string, extraStr string) (string, error) {
@@ -122,23 +139,27 @@ func (se SimpleEncryption) encrypt(str string, extraStr string) (string, error) 
 	return reStr, nil
 }
 
-// 解密
+// ==============================
 //
-// decrypt
+// 解密
 //
 // str: 需要解密的字符串
 //
-// str: string need to decrypt
-//
 // 返回值1: 解密后的字符串
-//
-// return value 1: decrypted string
 //
 // 返回值2: 额外信息
 //
-// return value 2: extra information
-//
 // 返回值3: 错误信息
+//
+// ==============================
+//
+// decrypt
+//
+// str: string need to decrypt
+//
+// return value 1: decrypted string
+//
+// return value 2: extra information
 //
 // return value 3: error message
 func (se SimpleEncryption) decrypt(str string) (reStr string, extra string, err error) {
