@@ -1,6 +1,7 @@
 # simple_encryption
 English | [简体中文](README_zh.md)
-Encrypt database ID on the server side using
+
+Encrypt data table ID on server side
 
 # Usage
 ## Comparison value string

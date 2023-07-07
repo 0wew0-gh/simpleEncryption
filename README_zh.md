@@ -1,6 +1,7 @@
 # simple_encryption
 [English](README.md) | 简体中文
-在服务器端加密数据库ID用
+
+在服务器端加密数据表ID
 
 # 用法
 ## 对比值字符串
