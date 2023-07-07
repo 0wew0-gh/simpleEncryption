@@ -7,16 +7,16 @@ import (
 	"strings"
 )
 
-func checkKey(key string) (SimpleEncryption, error) {
+func checkKey(key string) (*SecretKey, error) {
 	var (
-		se  SimpleEncryption
+		se  SecretKey
 		err error
 	)
 	tempJson := make(map[string]interface{}, 0)
 	if se.extraItem < 0 || se.cKey == nil || (se.cKey != nil && len(se.cKey) == 0) || se.cryptKey == nil || (se.cryptKey != nil && len(se.cryptKey) == 0) {
 		err = json.Unmarshal([]byte(key), &tempJson)
 		if err != nil {
-			return se, err
+			return &se, err
 		}
 	}
 	if se.extraItem < 0 || se.cKey == nil || (se.cKey != nil && len(se.cKey) == 0) {
@@ -31,10 +31,10 @@ func checkKey(key string) (SimpleEncryption, error) {
 		case string:
 			se.extraItem, err = strconv.Atoi(tempType)
 			if err != nil {
-				return se, err
+				return &se, err
 			}
 		default:
-			return se, fmt.Errorf("extraItem is not int")
+			return &se, fmt.Errorf("extraItem is not int")
 		}
 	}
 	if se.cryptKey == nil || (se.cryptKey != nil && len(se.cryptKey) == 0) || se.cKey == nil || (se.cKey != nil && len(se.cKey) == 0) {
@@ -50,15 +50,15 @@ func checkKey(key string) (SimpleEncryption, error) {
 						se.cryptKey = strings.Split(tempTypeChild, "")
 					}
 				default:
-					return se, fmt.Errorf("key.key is not true")
+					return &se, fmt.Errorf("key.key is not true")
 				}
 			}
 		default:
-			return se, fmt.Errorf("key.key is not true")
+			return &se, fmt.Errorf("key.key is not true")
 		}
 	}
 	if se.extraItem < 0 || se.cKey == nil || (se.cKey != nil && len(se.cKey) == 0) || se.cryptKey == nil || (se.cryptKey != nil && len(se.cryptKey) == 0) {
-		return se, fmt.Errorf("key is not true")
+		return &se, fmt.Errorf("key is not true")
 	}
-	return se, nil
+	return &se, nil
 }

@@ -13,14 +13,14 @@ var (
 
 func TestEncryption(t *testing.T) {
 	var (
-		se      *SimpleEncryption = nil
-		err     error             = nil
-		extra   string            = "1"
-		str     string            = "1z3a+bc f"
-		enStr   string            = ""
-		reStr   string            = ""
-		reExtra string            = ""
-		j       int               = 0
+		se      *SecretKey = nil
+		err     error      = nil
+		extra   string     = "1"
+		str     string     = "1z3a+bc f"
+		enStr   string     = ""
+		reStr   string     = ""
+		reExtra string     = ""
+		j       int        = 0
 	)
 	println(">>>>> TestEncryption New <<<<<")
 	se, err = New(2, "jb10=m/zkvpds=1/", "/*-+0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
@@ -29,9 +29,9 @@ func TestEncryption(t *testing.T) {
 		return
 	}
 	println("[extra]:     ", extra, "[str]:     ", str)
-	enStr = se.encrypt(str, extra)
+	enStr = se.Encrypt(str, extra)
 	println("[encrypt]:                 ", enStr)
-	reStr, reExtra, err = se.decrypt(enStr)
+	reStr, reExtra, err = se.Decrypt(enStr)
 	if err != nil {
 		t.Error("decrypt error:", err)
 		return
@@ -46,8 +46,8 @@ func TestEncryption(t *testing.T) {
 	}
 	println("[extra]:     ", extra, "[str]:     ", str)
 	for i := 0; i < loopCount; i++ {
-		enStr = se.encrypt(str, extra)
-		reStr, reExtra, err = se.decrypt(enStr)
+		enStr = se.Encrypt(str, extra)
+		reStr, reExtra, err = se.Decrypt(enStr)
 		if err != nil {
 			t.Error("decrypt error:", err)
 			continue

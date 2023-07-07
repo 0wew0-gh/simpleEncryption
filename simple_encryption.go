@@ -5,8 +5,7 @@ import (
 	"strings"
 )
 
-type SimpleEncryption SimpleEncryptionT
-type SimpleEncryptionT struct {
+type SecretKey struct {
 	extraItem int
 	cKey      []string
 	cryptKey  []string
@@ -22,7 +21,7 @@ type SimpleEncryptionT struct {
 //
 // key: 密钥
 //
-// 返回值1: SimpleEncryption对象
+// 返回值1: SecretKey对象
 //
 // 返回值2: 错误信息
 //
@@ -36,11 +35,11 @@ type SimpleEncryptionT struct {
 //
 // cryptKey: password book
 //
-// return value 1: SimpleEncryption object
+// return value 1: SecretKey object
 //
 // return value 2: error message
-func New(extraItem int, key string, cryptKey string) (*SimpleEncryption, error) {
-	var se SimpleEncryption
+func New(extraItem int, key string, cryptKey string) (*SecretKey, error) {
+	var se SecretKey
 	if extraItem < 0 {
 		return &se, fmt.Errorf("extraItem needs to be greater than 0")
 	}
@@ -69,7 +68,7 @@ func New(extraItem int, key string, cryptKey string) (*SimpleEncryption, error) 
 //			"key": ["asfa908#@%.,?", "bcdeftuvwxyz0123456789"]
 //		}
 //
-// 返回值1: SimpleEncryption对象
+// 返回值1: SecretKey对象
 //
 // 返回值2: 错误信息
 //
@@ -85,19 +84,15 @@ func New(extraItem int, key string, cryptKey string) (*SimpleEncryption, error) 
 //			"key": ["asfa908#@%.,?", "bcdeftuvwxyz0123456789"]
 //		}
 //
-// return value 1: SimpleEncryption object
+// return value 1: SecretKey object
 //
 // return value 2: error message
-func NewJson(key string) (*SimpleEncryption, error) {
-	var (
-		se  SimpleEncryption
-		err error
-	)
-	se, err = checkKey(key)
+func NewJson(key string) (*SecretKey, error) {
+	se, err := checkKey(key)
 	if err != nil {
-		return &se, err
+		return se, err
 	}
-	return &se, nil
+	return se, nil
 }
 
 // ==============================
@@ -123,17 +118,17 @@ func NewJson(key string) (*SimpleEncryption, error) {
 // return value 1: encrypted string
 //
 // return value 2: error message
-func (se *SimpleEncryption) encrypt(str string, extraStr string) (reStr string) {
+func (se *SecretKey) Encrypt(str string, extraStr string) (reStr string) {
 	j := 0
 	strArr := strings.Split(str, "")
 	extraStrArr := strings.Split(extraStr, "")
 	for i := 0; i < len(strArr); i++ {
 		tempStr := ""
 		if se.extraItem == i {
-			tempStr, j = se._cryption(extraStrArr[0], j)
+			tempStr, j = se.cryption(extraStrArr[0], j)
 			reStr += tempStr
 		}
-		tempStr, j = se._cryption(strArr[i], j)
+		tempStr, j = se.cryption(strArr[i], j)
 		reStr += tempStr
 	}
 	return reStr
@@ -162,12 +157,12 @@ func (se *SimpleEncryption) encrypt(str string, extraStr string) (reStr string) 
 // return value 2: extra information
 //
 // return value 3: error message
-func (se *SimpleEncryption) decrypt(str string) (reStr string, extra string, err error) {
+func (se *SecretKey) Decrypt(str string) (reStr string, extra string, err error) {
 	j := 0
 	strArr := strings.Split(str, "")
 	for i := 0; i < len(str); i++ {
 		tempStr := ""
-		tempStr, j = se._cryption(strArr[i], j)
+		tempStr, j = se.cryption(strArr[i], j)
 		if se.extraItem == i {
 			extra = tempStr
 			continue
@@ -179,20 +174,20 @@ func (se *SimpleEncryption) decrypt(str string) (reStr string, extra string, err
 
 /// 私有方法
 
-func (se *SimpleEncryption) _cryption(str string, j int) (string, int) {
+func (se *SecretKey) cryption(str string, j int) (string, int) {
 	reStr := ""
 	s := str
-	cryptI := se._findChar(s)
+	cryptI := se.findChar(s)
 	if cryptI == -1 {
 		reStr = s
 		return reStr, j
 	}
 	newByte := 0
-	newByte, j = se._enByte(j, cryptI)
+	newByte, j = se.enByte(j, cryptI)
 	reStr = se.cryptKey[newByte]
 	return reStr, j
 }
-func (se *SimpleEncryption) _findChar(str string) int {
+func (se *SecretKey) findChar(str string) int {
 	cryptI := -1
 	for i, v := range se.cryptKey {
 		if str == v {
@@ -202,15 +197,15 @@ func (se *SimpleEncryption) _findChar(str string) int {
 	}
 	return cryptI
 }
-func (se *SimpleEncryption) _enByte(ki int, cryptI int) (newItem int, keyItem int) {
+func (se *SecretKey) enByte(ki int, cryptI int) (newItem int, keyItem int) {
 	k := se.cKey[ki]
 	ki++
-	cI := se._findChar(k)
+	cI := se.findChar(k)
 	newI := cI - cryptI
-	newI = se._cryptloop(newI)
+	newI = se.cryptloop(newI)
 	return newI, ki
 }
-func (se *SimpleEncryption) _cryptloop(i int) int {
+func (se *SecretKey) cryptloop(i int) int {
 	if i < 0 {
 		i = len(se.cryptKey) + i
 	}
@@ -218,7 +213,7 @@ func (se *SimpleEncryption) _cryptloop(i int) int {
 		i = i - len(se.cryptKey)
 	}
 	if i < 0 || i > len(se.cryptKey) {
-		i = se._cryptloop(i)
+		i = se.cryptloop(i)
 	}
 	return i
 }
