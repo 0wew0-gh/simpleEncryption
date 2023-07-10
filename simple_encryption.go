@@ -13,31 +13,21 @@ type SecretKey struct {
 
 // ==============================
 //
-// 初始化
-//
-// extraItem: 额外信息的位置，从0开始
-//
-// cryptKey: 密码本
-//
-// key: 密钥
-//
-// 返回值1: SecretKey对象
-//
-// 返回值2: 错误信息
+//	初始化
+//	extraItem: 额外信息的位置，从0开始
+//	cryptKey: 密码本
+//	key: 密钥
+//	返回值1: SecretKey对象
+//	返回值2: 错误信息
 //
 // ==============================
 //
-// initialization
-//
-// extraItem: extra information position, start from 0
-//
-// key: key
-//
-// cryptKey: password book
-//
-// return value 1: SecretKey object
-//
-// return value 2: error message
+//	initialization
+//	extraItem: extra information position, start from 0
+//	key: key
+//	cryptKey: password book
+//	return value 1: SecretKey object
+//	return value 2: error message
 func New(extraItem int, key string, cryptKey string) (*SecretKey, error) {
 	var se SecretKey
 	if extraItem < 0 {
@@ -57,36 +47,27 @@ func New(extraItem int, key string, cryptKey string) (*SecretKey, error) {
 
 // ==============================
 //
-// 初始化(Json格式)
-//
-// key: 密码本
-//
-//	格式:
-//
+//	初始化(Json格式)
+//	key: 密码本
+//		格式:
 //		{
 //			"extraItem": 1,
 //			"key": ["asfa908#@%.,?", "bcdeftuvwxyz0123456789"]
 //		}
-//
-// 返回值1: SecretKey对象
-//
-// 返回值2: 错误信息
+//	返回值1: SecretKey对象
+//	返回值2: 错误信息
 //
 // ==============================
 //
-// initialization(Json format)
-//
-// key: password book
-//
+//	initialization(Json format)
+//	key: password book
 //	format:
 //		{
 //			"extraItem": 1,
 //			"key": ["asfa908#@%.,?", "bcdeftuvwxyz0123456789"]
 //		}
-//
-// return value 1: SecretKey object
-//
-// return value 2: error message
+//	return value 1: SecretKey object
+//	return value 2: error message
 func NewJson(key string) (*SecretKey, error) {
 	se, err := checkKey(key)
 	if err != nil {
@@ -97,27 +78,19 @@ func NewJson(key string) (*SecretKey, error) {
 
 // ==============================
 //
-// 加密
-//
-// extra: 额外信息，暂只支持一个字符
-//
-// str: 需要加密的字符串
-//
-// 返回值1: 加密后的字符串
-//
-// 返回值2: 错误信息
+//	加密
+//	extra: 额外信息，暂只支持一个字符
+//	str: 需要加密的字符串
+//	返回值1: 加密后的字符串
+//	返回值2: 错误信息
 //
 // ==============================
 //
-// encryption
-//
-// extra: extra information, only support one character
-//
-// str: string need to encrypt
-//
-// return value 1: encrypted string
-//
-// return value 2: error message
+//	encryption
+//	extra: extra information, only support one character
+//	str: string need to encrypt
+//	return value 1: encrypted string
+//	return value 2: error message
 func (se *SecretKey) Encrypt(str string, extraStr string) (reStr string) {
 	j := 0
 	strArr := strings.Split(str, "")
@@ -136,27 +109,19 @@ func (se *SecretKey) Encrypt(str string, extraStr string) (reStr string) {
 
 // ==============================
 //
-// 解密
-//
-// str: 需要解密的字符串
-//
-// 返回值1: 解密后的字符串
-//
-// 返回值2: 额外信息
-//
-// 返回值3: 错误信息
+//	解密
+//	str: 需要解密的字符串
+//	返回值1: 解密后的字符串
+//	返回值2: 额外信息
+//	返回值3: 错误信息
 //
 // ==============================
 //
-// decrypt
-//
-// str: string need to decrypt
-//
-// return value 1: decrypted string
-//
-// return value 2: extra information
-//
-// return value 3: error message
+//	decrypt
+//	str: string need to decrypt
+//	return value 1: decrypted string
+//	return value 2: extra information
+//	return value 3: error message
 func (se *SecretKey) Decrypt(str string) (reStr string, extra string, err error) {
 	j := 0
 	strArr := strings.Split(str, "")
