@@ -8,7 +8,7 @@ import (
 
 var (
 	loopCount int    = 10000
-	contrast  string = "{\"extraItem\":2,\"key\":[\"jb10=m/zkvpds=1/\",\"/*-+0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\"]}"
+	contrast  string = "{\"extraItem\":20,\"key\":[\"jb10=m/zkvpds=1/\",\"/*-+0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\"]}"
 )
 
 func TestEncryption(t *testing.T) {

@@ -95,13 +95,20 @@ func (se *SecretKey) Encrypt(str string, extraStr string) (reStr string) {
 	j := 0
 	strArr := strings.Split(str, "")
 	extraStrArr := strings.Split(extraStr, "")
+	isAddExtraItem := false
 	for i := 0; i < len(strArr); i++ {
 		tempStr := ""
 		if se.extraItem == i {
+			isAddExtraItem = true
 			tempStr, j = se.cryption(extraStrArr[0], j)
 			reStr += tempStr
 		}
 		tempStr, j = se.cryption(strArr[i], j)
+		reStr += tempStr
+	}
+	if !isAddExtraItem {
+		tempStr := ""
+		tempStr, _ = se.cryption(extraStrArr[0], j)
 		reStr += tempStr
 	}
 	return reStr
@@ -125,10 +132,12 @@ func (se *SecretKey) Encrypt(str string, extraStr string) (reStr string) {
 func (se *SecretKey) Decrypt(str string) (reStr string, extra string, err error) {
 	j := 0
 	strArr := strings.Split(str, "")
+	isAddExtraItem := false
 	for i := 0; i < len(str); i++ {
 		tempStr := ""
 		tempStr, j = se.cryption(strArr[i], j)
-		if se.extraItem == i {
+		if se.extraItem == i || (!isAddExtraItem && i == len(str)-1) {
+			isAddExtraItem = true
 			extra = tempStr
 			continue
 		}
