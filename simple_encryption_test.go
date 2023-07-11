@@ -23,7 +23,7 @@ func TestEncryption(t *testing.T) {
 		j       int        = 0
 	)
 	println(">>>>> TestEncryption New <<<<<")
-	se, err = New(2, "jb10=m/zkvpds=1/", "/*-+0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+	se, err = New(20, "jb=1/", "/*-+0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
 	if err != nil {
 		t.Error("encrypt error:", err)
 		return

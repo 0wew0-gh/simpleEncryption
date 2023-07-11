@@ -172,6 +172,9 @@ func (se *SecretKey) findChar(str string) int {
 	return cryptI
 }
 func (se *SecretKey) enByte(ki int, cryptI int) (newItem int, keyItem int) {
+	if ki >= len(se.cKey) {
+		ki = 0
+	}
 	k := se.cKey[ki]
 	ki++
 	cI := se.findChar(k)
